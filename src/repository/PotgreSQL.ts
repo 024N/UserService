@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { createConnection } from "typeorm";
-// import { createSuper } from "typescript";
+import { POSTGRES_OPTIONS } from "../db/Constant";
 import { UserEntity } from "../db/entity/UserEntity";
 
 export async function getUserRewards(id: any){
@@ -8,7 +8,7 @@ export async function getUserRewards(id: any){
 }
 
 export async function getAllUsers(){
-    return createConnection().then(async connection => {
+    return createConnection(POSTGRES_OPTIONS).then(async connection => {
         console.log("Loading users from the database...");
         const users = await connection.manager.find(UserEntity);
         console.log("Loaded users: ", users);
@@ -21,7 +21,7 @@ export async function getAllUsers(){
 }
 
 export async function createUser(body: UserEntity): Promise<boolean> {
-    return createConnection().then(async (connection) => {
+    return createConnection(POSTGRES_OPTIONS).then(async (connection) => {
         console.log("Inserting a new user into the database...");
         console.log(body);
         const user = new UserEntity();
